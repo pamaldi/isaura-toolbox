@@ -88,6 +88,19 @@ public class UtilsTest {
 		assertEquals(false, bs.get(9));
 		assertEquals(true, bs.get(10));
 	}
+
+	@Test
+	public void when_62then_bitset_ok() {
+		BitSet bs = Utils.generateBitSetFromInt(62);
+		//111110
+		assertEquals(false, bs.get(0));
+		assertEquals(true, bs.get(1));
+		assertEquals(true, bs.get(2));
+		assertEquals(true, bs.get(3));
+		assertEquals(true, bs.get(4));
+		assertEquals(true, bs.get(5));
+
+	}
 	
 	
 }

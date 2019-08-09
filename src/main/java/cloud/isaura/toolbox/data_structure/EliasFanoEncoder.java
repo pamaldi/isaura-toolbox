@@ -8,14 +8,18 @@ import cloud.isaura.toolbox.utils.Utils;
 public class EliasFanoEncoder {
     //S(n,u)
 	private int[] sequence;
+
 	//last number in sequence
 	private int u;
+
 	//sequence lenght
 	private int n;
+
 	//upper (log2(u/n)) -> number of bits for each low part
-	private int l=0;
-	//upper(log2(u)) - l -> umber of bits for each high part
-	private int h=0;
+	private int numberOfLowBits =0;
+	//upper(log2(n)) -> umber of bits for each high part
+	private int numberOfHighBits =0;
+
 	private BitSet lowValues;
 	private BitSet highValues;
 	
@@ -34,7 +38,7 @@ public class EliasFanoEncoder {
 	}
 	
 	private void checkEncodePrerequisites() {
-		if(this.l == 0|| this.h == 0) {
+		if(this.numberOfLowBits == 0|| this.numberOfHighBits == 0) {
 			throw new IllegalArgumentException("Bit vectors null");
 		}
 	}
@@ -43,18 +47,18 @@ public class EliasFanoEncoder {
 		checkSequencePrerequisites();
 		this.u = this.sequence[this.sequence.length-1];
 		this.n = this.sequence.length;
-		Double result = new Double(this.u)/new Double(this.n);
-		this.l = (int) Utils.logRoundToUpperInteger(2, result);
-		this.h = (int) Utils.logRoundToUpperInteger(2, new Double(this.u))-this.l;
+		Double u_div_n = new Double(this.u)/new Double(this.n);
+		this.numberOfLowBits = (int) Utils.logRoundToUpperInteger(2, u_div_n);
+		this.numberOfHighBits = (int)Utils.logRoundToUpperInteger(2, u)-numberOfLowBits;
 	}
 	
 	private void processSequenceElementForEncoding(HashMap<String, Integer> bucketsOfLow,
 			StringBuffer stringBufferForLow, int k) {
-		String binaryString = Utils.buildFromIntegerWithLeadingZero(l+h, this.sequence[k]);
-		//System.out.println("Processing "+this.sequence[k]+" with binaryString "+binaryString);
+		String binaryString = Utils.buildFromIntegerWithLeadingZero(numberOfLowBits + numberOfHighBits, this.sequence[k]);
+		System.out.println("Processing "+this.sequence[k]+" with binaryString "+binaryString);
 		int binaryStringLength = binaryString.length();
 		int endIndexForLowBinaryString = binaryStringLength;
-		int startIndexForLowBinaryString = binaryStringLength-this.l;
+		int startIndexForLowBinaryString = binaryStringLength-this.numberOfLowBits;
 		String lowBinaryString = binaryString.substring(startIndexForLowBinaryString,endIndexForLowBinaryString);
 		stringBufferForLow.append(lowBinaryString);
 		String highBinaryString = binaryString.substring(0,startIndexForLowBinaryString);
@@ -89,13 +93,13 @@ public class EliasFanoEncoder {
 
 
 	private int getCurrentSizeLowValues() {
-		int currentSizeLowValues = this.l*this.n;
+		int currentSizeLowValues = this.numberOfLowBits *this.n;
 		return currentSizeLowValues;
 	}
 
 	
-	public int getH() {
-		return h;
+	public int getNumberOfHighBits() {
+		return numberOfHighBits;
 	}
 
 	public int getU() {
@@ -106,12 +110,12 @@ public class EliasFanoEncoder {
 		return n;
 	}
 
-	public int getL() {
-		return l;
+	public int getNumberOfLowBits() {
+		return numberOfLowBits;
 	}
 
-	public void setL(int l) {
-		this.l = l;
+	public void setNumberOfLowBits(int numberOfLowBits) {
+		this.numberOfLowBits = numberOfLowBits;
 	}
 	
 	public String getLowBitString() {

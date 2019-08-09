@@ -98,5 +98,11 @@ public class Utils {
 		return sb.toString();
 	}
 
+	public static BitSet generateBitSetFromInt(int value){
+		return BitSet.valueOf(new long[]{value});
+	}
+
+	
+
 
 }

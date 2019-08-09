@@ -49,8 +49,8 @@ public class EliasFanoEncoderTest {
 		encoder.prepare();
 		assertEquals(12, encoder.getN());
 		assertEquals(62, encoder.getU());
-		assertEquals(3, encoder.getL());
-		assertEquals(3, encoder.getH());
+		assertEquals(3, encoder.getNumberOfLowBits());
+		assertEquals(3, encoder.getNumberOfHighBits());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
