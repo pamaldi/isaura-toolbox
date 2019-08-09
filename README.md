@@ -1,7 +1,7 @@
 # Isaura Toolbox
 
 Il progetto comprende una serie di toolbox in java su disparati argomenti: principalmente algoritmi e strutture dati
-
+Dettagli di seguito: https://github.com/pamaldi/isaura-toolbox/wiki
 
 ### Prerequisiti
 
